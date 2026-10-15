@@ -7,7 +7,7 @@ const COGNITO_DOMAIN =
   "https://ap-southeast-2xcjyhmnje.auth.ap-southeast-2.amazoncognito.com";
 
 const COGNITO_CLIENT_ID = "41cie4g9t888rgsklmt6gss1iu";
-const REDIRECT_URI = "http://localhost:8000/index.html";
+const REDIRECT_URI = "https://photosharing-application.onrender.com/index.html";
 
 const API_BASE =
   "https://aayqmlpqj9.execute-api.ap-southeast-2.amazonaws.com";
