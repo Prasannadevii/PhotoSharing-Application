@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About this website | PhotoShare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html#home">
+      <span class="brand-icon">P</span> PhotoShare
+    </a>
+    <nav id="mainNav">
+      <a href="index.html#home">Home</a>
+      <a href="index.html#gallery">Gallery</a>
+      <a href="index.html#upload">Upload</a>
+      <a href="about-me.html">About me</a>
+      <a href="about-website.html">About website</a>
+      <a href="admin.html" id="adminLink" class="hidden">Admin</a>
+    </nav>
+    <div class="account">
+      <span id="userLabel">Guest user</span>
+      <button id="loginOpen" class="btn btn-light">Sign in</button>
+      <button id="logoutBtn" class="btn btn-light hidden">Sign out</button>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <section class="page-hero solo">
+      <div class="blob b1"></div><div class="blob b3"></div>
+      <div class="intro">
+        <span class="eyebrow">ABOUT THIS WEBSITE</span>
+        <h1>A private photo gallery,<br>built on <span class="grad-text">AWS.</span></h1>
+        <p class="lead">PhotoShare is a learning project. You sign in, upload photos to private cloud storage,
+          and see your own collection in a searchable gallery.</p>
+        <div class="hero-actions">
+          <a href="index.html#upload" class="btn btn-primary">Upload a photo ↗</a>
+          <a href="index.html#gallery" class="btn btn-outline">Explore gallery</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="facts">
+      <div class="fact reveal"><strong>5</strong><span>Steps from sign-in to gallery</span></div>
+      <div class="fact reveal" style="--d:100ms"><strong>3</strong><span>Image types: JPEG, PNG, WebP</span></div>
+      <div class="fact reveal" style="--d:200ms"><strong data-count="10" data-suffix=" MB">10 MB</strong><span>Maximum photo size</span></div>
+      <div class="fact reveal" style="--d:300ms"><strong>0</strong><span>Frameworks. Plain HTML, CSS and JavaScript</span></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading reveal">
+        <span class="eyebrow">FEATURES</span>
+        <h2>What you can do here</h2>
+      </div>
+      <div class="cards">
+        <div class="card reveal"><i class="ico">🔑</i><h3>Sign in securely</h3>
+          <p>Sign-in goes through Amazon Cognito. Your session ends when you sign out or when it expires.</p></div>
+        <div class="card reveal" style="--d:80ms"><i class="ico">↑</i><h3>Upload photos</h3>
+          <p>Give each photo a title, then choose a file or drag it onto the upload box.</p></div>
+        <div class="card reveal" style="--d:160ms"><i class="ico">▧</i><h3>Browse your gallery</h3>
+          <p>Your saved photos load from the cloud when you sign in. Open any photo in a new tab with View.</p></div>
+        <div class="card reveal"><i class="ico">⌕</i><h3>Search instantly</h3>
+          <p>Type in the search box to filter your photos by title or file name.</p></div>
+        <div class="card reveal" style="--d:80ms"><i class="ico">🔒</i><h3>Keep photos private</h3>
+          <p>Photos live in a private S3 bucket. Only you get a temporary link to view them.</p></div>
+        <div class="card reveal" style="--d:160ms"><i class="ico">▱</i><h3>Use any device</h3>
+          <p>The layout adapts from large desktop screens to small phones.</p></div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="section-heading reveal">
+        <span class="eyebrow">HOW IT WORKS</span>
+        <h2>From your browser to the cloud</h2>
+        <p>Every upload follows the same five steps.</p>
+      </div>
+      <div class="flow">
+        <div class="step reveal"><h3>Sign in</h3><p>Cognito's hosted page signs you in. The browser receives a secure token.</p></div>
+        <div class="step reveal" style="--d:100ms"><h3>Request an upload link</h3><p>The site asks API Gateway and Lambda for a short-lived, one-time upload URL.</p></div>
+        <div class="step reveal" style="--d:200ms"><h3>Upload to S3</h3><p>Your browser sends the photo straight to the private S3 bucket.</p></div>
+        <div class="step reveal" style="--d:300ms"><h3>Save the details</h3><p>An S3 event triggers Lambda, which stores the photo's details in DynamoDB.</p></div>
+        <div class="step reveal" style="--d:400ms"><h3>Show the gallery</h3><p>The site fetches your photo list and displays each one with a private view link.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading reveal">
+        <span class="eyebrow">THE CLOUD STACK</span>
+        <h2>AWS services behind the scenes</h2>
+      </div>
+      <div class="cards">
+        <div class="card reveal"><i class="ico">👤</i><h3>Amazon Cognito</h3><p>Handles sign-in and issues the tokens used to call the API.</p></div>
+        <div class="card reveal" style="--d:80ms"><i class="ico">⇄</i><h3>Amazon API Gateway</h3><p>Exposes the upload-url and photos endpoints, protected by your sign-in token.</p></div>
+        <div class="card reveal" style="--d:160ms"><i class="ico">λ</i><h3>AWS Lambda</h3><p>Creates upload links, records new photos and returns your photo list.</p></div>
+        <div class="card reveal"><i class="ico">▣</i><h3>Amazon S3</h3><p>Stores the image files in a private bucket.</p></div>
+        <div class="card reveal" style="--d:80ms"><i class="ico">▤</i><h3>Amazon DynamoDB</h3><p>Keeps each photo's title, file name, location and upload time.</p></div>
+        <div class="card reveal" style="--d:160ms"><i class="ico">🔔</i><h3>Amazon SNS</h3><p>Planned. Will send notifications about new activity.</p></div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="two-col">
+        <div class="reveal">
+          <span class="eyebrow">BUILT WITH</span>
+          <h2 class="sub-title">Simple, readable code</h2>
+          <p style="color:var(--muted);font-size:15px;margin-bottom:16px">The frontend is three kinds of files: HTML for structure, CSS for design and animation, and JavaScript for sign-in, uploads and the gallery. Sign-in uses the OAuth authorization code flow with PKCE, and every piece of text from the server is escaped before it is shown.</p>
+          <div class="chips"><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span><span class="chip">OAuth 2.0 + PKCE</span><span class="chip">Presigned URLs</span></div>
+        </div>
+        <div class="reveal" style="--d:120ms">
+          <span class="eyebrow">GOOD TO KNOW</span>
+          <h2 class="sub-title">A few things to expect</h2>
+          <div class="card" style="--c:var(--pink)">
+            <ul style="margin-top:0">
+              <li>Sign in before uploading. Guests can browse the site but cannot save photos.</li>
+              <li>New photos can take a few seconds to appear while the cloud finishes processing them.</li>
+              <li>Remove hides a photo from this view only. It does not delete the file from cloud storage.</li>
+              <li>This is a learning project, so features will keep growing.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="cta-band reveal" style="margin:0">
+        <h2>Ready to add your first memory?</h2>
+        <p>Sign in, pick a photo and watch it travel to the cloud.</p>
+        <div class="hero-actions">
+          <a href="index.html#upload" class="btn btn-primary">Upload a photo ↗</a>
+          <a href="about-me.html" class="btn btn-light">Meet the developer</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="index.html#home">PhotoShare</a>
+    <div class="foot-links">
+      <a href="about-me.html">About me</a>
+      <a href="about-website.html">About website</a>
+    </div>
+    <span>Learning project · AWS Photo Sharing Application</span>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

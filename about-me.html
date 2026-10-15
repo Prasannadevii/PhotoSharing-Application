@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About me | PhotoShare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html#home">
+      <span class="brand-icon">P</span> PhotoShare
+    </a>
+    <nav id="mainNav">
+      <a href="index.html#home">Home</a>
+      <a href="index.html#gallery">Gallery</a>
+      <a href="index.html#upload">Upload</a>
+      <a href="about-me.html">About me</a>
+      <a href="about-website.html">About website</a>
+      <a href="admin.html" id="adminLink" class="hidden">Admin</a>
+    </nav>
+    <div class="account">
+      <span id="userLabel">Guest user</span>
+      <button id="loginOpen" class="btn btn-light">Sign in</button>
+      <button id="logoutBtn" class="btn btn-light hidden">Sign out</button>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="blob b1"></div><div class="blob b2"></div>
+      <div class="avatar">
+        <span>PS</span>
+        <img src="Prasanna_Devi.JPEG" alt="Portrait of Prasannadevi S" onerror="this.remove()">
+      </div>
+      <div class="intro">
+        <span class="eyebrow">ABOUT ME</span>
+        <h1>Prasannadevi S</h1>
+        <p class="lead">B.Tech Computer Science and Engineering student at VIT Vellore (CGPA 9.22)
+          with hands-on experience in AI, backend development, data science and cloud
+          technologies. I built PhotoShare as my AWS cloud project.</p>
+        <div class="hero-actions">
+          <a href="mailto:prasannadevi.selvakumar@gmail.com" class="btn btn-primary">Email me</a>
+          <a href="https://drive.google.com/file/d/1bGVpnDCysc-osPadfMl0ZBc3N4VnRumS/view?usp=sharing" class="btn btn-outline" target="_blank" rel="noopener">View resume</a>
+        </div>
+        <div class="social">
+          <!-- Replace each # with your real profile link -->
+          <a href="#" class="btn btn-outline">GitHub</a>
+          <a href="#" class="btn btn-outline">LinkedIn</a>
+          <a href="#" class="btn btn-outline">LeetCode</a>
+          <a href="#" class="btn btn-outline">Portfolio</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="facts">
+      <div class="fact reveal"><strong data-count="9.22" data-decimals="2">9.22</strong><span>CGPA at VIT Vellore</span></div>
+      <div class="fact reveal" style="--d:100ms"><strong data-count="97.17" data-decimals="2" data-suffix="%">97.17%</strong><span>Class XII · District Topper</span></div>
+      <div class="fact reveal" style="--d:200ms"><strong data-count="350" data-suffix="+">350+</strong><span>LeetCode problems solved</span></div>
+      <div class="fact reveal" style="--d:300ms"><strong data-count="16">16</strong><span>Parity gaps resolved at Dell</span></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading reveal">
+        <span class="eyebrow">EXPERIENCE</span>
+        <h2>Where I have worked</h2>
+        <p>Completed a Software Engineering Internship at Dell Technologies, working on Agentic AI for Cloud and Edge.</p>
+      </div>
+      <div class="timeline">
+        <article class="t-item reveal">
+          <h3>Software Engineering Intern · Dell Technologies</h3>
+          <span class="meta">Bengaluru, India (Onsite) · June 2026 – July 2026</span>
+          <ul>
+            <li>Developed Agentic AI solutions for Cloud and Edge to automate BIOS policy creation, configuration monitoring and system updates.</li>
+            <li>Resolved 16 parity gaps during the migration from DCC CLI to DCEC, improving feature consistency and platform reliability.</li>
+            <li>Gained hands-on experience in BIOS configuration, firmware management and enterprise device administration workflows.</li>
+          </ul>
+        </article>
+        <article class="t-item reveal">
+          <h3>Software Development Intern · .NET Backend Development with AI</h3>
+          <span class="meta">Aug 2025 – Dec 2025</span>
+          <ul>
+            <li>Developed AI-enabled backend APIs using the .NET framework for scalable enterprise applications.</li>
+            <li>Implemented automated unit testing to improve software quality, reliability and maintainability.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="section-heading reveal">
+        <span class="eyebrow">SKILLS</span>
+        <h2>What I work with</h2>
+      </div>
+      <div class="cards">
+        <div class="card reveal"><i class="ico">{ }</i><h3>Programming languages</h3>
+          <div class="chips"><span class="chip">Java</span><span class="chip">Python</span></div></div>
+        <div class="card reveal" style="--d:80ms"><i class="ico">⌘</i><h3>Core computer science</h3>
+          <div class="chips"><span class="chip">OOP</span><span class="chip">Operating Systems</span><span class="chip">Computer Networks</span><span class="chip">DBMS</span><span class="chip">DSA</span></div></div>
+        <div class="card reveal" style="--d:160ms"><i class="ico">◧</i><h3>Frontend</h3>
+          <div class="chips"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span></div></div>
+        <div class="card reveal"><i class="ico">⚙</i><h3>Backend</h3>
+          <div class="chips"><span class="chip">Node.js</span><span class="chip">Express.js</span></div></div>
+        <div class="card reveal" style="--d:80ms"><i class="ico">▤</i><h3>Database</h3>
+          <div class="chips"><span class="chip">MongoDB</span><span class="chip">MySQL</span></div></div>
+        <div class="card reveal" style="--d:160ms"><i class="ico">☁</i><h3>Cloud and tools</h3>
+          <div class="chips"><span class="chip">AWS</span><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span></div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading reveal">
+        <span class="eyebrow">PROJECTS</span>
+        <h2>Things I have built</h2>
+      </div>
+      <div class="cards two">
+        <article class="card reveal">
+          <span class="meta">Jan 2024 – May 2024</span>
+          <h3>Online Blood Bank Management System</h3>
+          <p>A full-stack web application to streamline blood donation workflows, donor records, hospital requests and emergency blood bank inventory. Secure RESTful APIs with Express.js and MongoDB handle CRUD operations, with a responsive frontend and real-time status tracking.</p>
+          <div class="chips"><span class="chip">Node.js</span><span class="chip">Express.js</span><span class="chip">MongoDB</span><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">JavaScript</span></div>
+        </article>
+        <article class="card reveal" style="--d:100ms">
+          <span class="meta">Jan 2025 – May 2025</span>
+          <h3>Photo Sharing Application · Cloud-Based Web Application</h3>
+          <p>A secure cloud-based photo sharing application on AWS for image storage and user authentication. Amazon S3 provides high-availability image storage, and AWS Lambda handles scalable, serverless image processing and thumbnail generation. This is the project you are looking at.</p>
+          <div class="chips"><span class="chip">AWS S3</span><span class="chip">AWS Lambda</span><span class="chip">API Gateway</span><span class="chip">Cognito</span><span class="chip">Python</span></div>
+        </article>
+        <article class="card reveal">
+          <span class="meta">Aug 2025 – Dec 2025</span>
+          <h3>Online Voting Management System · Secure and Concurrent Platform</h3>
+          <p>A secure client-server voting platform demonstrating Operating Systems thread synchronization and Computer Networks protocols. It prevents race conditions and TOCTOU double-voting using threading.Lock and atomic transactions (BEGIN IMMEDIATE), with Berkeley TCP socket streaming, 4-byte length-prefixed framing and real-time observability dashboards.</p>
+          <div class="chips"><span class="chip">Python</span><span class="chip">Flask</span><span class="chip">SQLite</span><span class="chip">Multithreading</span><span class="chip">TCP Sockets</span><span class="chip">Chart.js</span></div>
+        </article>
+        <article class="card reveal" style="--d:100ms">
+          <span class="meta">Aug 2026 – Present</span>
+          <h3>Explainable AI-Based Multimodal Stress Detection System</h3>
+          <p>Developing a multimodal stress detection system using text, speech, physiological signals and keystroke dynamics, and integrating Explainable AI techniques (SHAP, LIME) to interpret feature contributions and improve model transparency.</p>
+          <div class="chips"><span class="chip">Python</span><span class="chip">Machine Learning</span><span class="chip">Deep Learning</span><span class="chip">SHAP / LIME</span><span class="chip">Signal Processing</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="two-col">
+        <div>
+          <div class="section-heading reveal" style="margin-bottom:0">
+            <span class="eyebrow">EDUCATION</span>
+            <h2 class="sub-title">Where I studied</h2>
+          </div>
+          <div class="timeline">
+            <article class="t-item reveal">
+              <h3>Vellore Institute of Technology</h3>
+              <span class="meta">Vellore, India · August 2023 – Present</span>
+              <ul><li>B.Tech Computer Science and Engineering · CGPA 9.22</li></ul>
+            </article>
+            <article class="t-item reveal">
+              <h3>Government Higher Secondary School</h3>
+              <span class="meta">Pudukkottai, India · June 2022 – April 2023</span>
+              <ul><li>Higher Secondary Education · 97.17% (District Topper)</li></ul>
+            </article>
+          </div>
+        </div>
+        <div>
+          <div class="section-heading reveal" style="margin-bottom:0">
+            <span class="eyebrow">ACHIEVEMENTS</span>
+            <h2 class="sub-title">Recognition and certificates</h2>
+          </div>
+          <div class="timeline">
+            <article class="t-item reveal">
+              <h3>Scholarships and awards</h3>
+              <ul>
+                <li>100% Tuition Fee Scholarship under the STARS Scheme at VIT Vellore (2023–2027).</li>
+                <li>District Topper with 97.17% in Class XII (State Board Examination).</li>
+                <li>Selected for the Dell Technologies Summer Internship Program 2026.</li>
+                <li>Solved 350+ problems on LeetCode.</li>
+              </ul>
+            </article>
+            <article class="t-item reveal">
+              <h3>Certifications</h3>
+              <div class="chips" style="margin-top:10px">
+                <span class="chip">Software Intern Certificate (Dell)</span>
+                <span class="chip">Full Stack (Coursera)</span>
+                <span class="chip">Java Basics (HackerRank)</span>
+                <span class="chip">AWS Skill Builder</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="cta-band reveal" style="margin:0">
+        <h2>Let's connect</h2>
+        <p>Have a question about this project or want to work together? Send me an email.</p>
+        <div class="hero-actions">
+          <a href="mailto:prasannadevi.selvakumar@gmail.com" class="btn btn-primary">prasannadevi.selvakumar@gmail.com</a>
+          <a href="about-website.html" class="btn btn-light">About this website</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="index.html#home">PhotoShare</a>
+    <div class="foot-links">
+      <a href="about-me.html">About me</a>
+      <a href="about-website.html">About website</a>
+    </div>
+    <span>Learning project · AWS Photo Sharing Application</span>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

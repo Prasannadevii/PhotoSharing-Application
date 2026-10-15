@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhotoShare | Your memories in the cloud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html#home">
+      <span class="brand-icon">P</span> PhotoShare
+    </a>
+    <nav id="mainNav">
+      <a href="index.html#home">Home</a>
+      <a href="index.html#gallery">Gallery</a>
+      <a href="index.html#upload">Upload</a>
+      <a href="about-me.html">About me</a>
+      <a href="about-website.html">About website</a>
+      <a href="admin.html" id="adminLink" class="hidden">Admin</a>
+    </nav>
+    <div class="account">
+      <span id="userLabel">Guest user</span>
+      <button id="loginOpen" class="btn btn-light">Sign in</button>
+      <button id="logoutBtn" class="btn btn-light hidden">Sign out</button>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mainNav">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+      <div class="hero-content">
+        <span class="eyebrow">YOUR MEMORIES, SAFELY STORED</span>
+        <h1>Every picture tells<br>your <span class="grad-text">story.</span></h1>
+        <p>Keep your favorite moments together. Upload photos,
+           organize your memories, and share them with people you love.</p>
+        <div class="hero-actions">
+          <a href="#upload" class="btn btn-primary">Upload a photo ↗</a>
+          <a href="#gallery" class="btn btn-outline">Explore gallery</a>
+        </div>
+        <div class="hero-note">
+          <span class="status-dot"></span>
+          <span>Designed for secure cloud photo storage</span>
+        </div>
+      </div>
+      <div class="hero-art">
+        <div class="photo-card photo-back">
+          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=600"
+               alt="Mountain landscape">
+        </div>
+        <div class="photo-card photo-front">
+          <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=600"
+               alt="Sunrise over a field">
+          <div class="photo-caption">
+            <span>Golden moments</span>
+            <span>✦</span>
+          </div>
+        </div>
+        <div class="floating-note">☁ Your memories, in the cloud</div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat reveal">
+        <i class="ico">▣</i>
+        <div class="stat-text"><strong id="photoCount">0</strong><span>Photos in this session</span></div>
+      </div>
+      <div class="stat reveal" style="--d:100ms">
+        <i class="ico">🔒</i>
+        <div class="stat-text"><strong>Private</strong><span>Storage by design</span></div>
+      </div>
+      <div class="stat reveal" style="--d:200ms">
+        <i class="ico">☁</i>
+        <div class="stat-text"><strong>Cloud-ready</strong><span>Built for AWS integration</span></div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span class="chip">Amazon S3</span><span class="chip">AWS Lambda</span><span class="chip">Amazon DynamoDB</span>
+        <span class="chip">Amazon Cognito</span><span class="chip">Amazon SNS</span><span class="chip">API Gateway</span>
+        <span class="chip">Amazon S3</span><span class="chip">AWS Lambda</span><span class="chip">Amazon DynamoDB</span>
+        <span class="chip">Amazon Cognito</span><span class="chip">Amazon SNS</span><span class="chip">API Gateway</span>
+        <span class="chip">Amazon S3</span><span class="chip">AWS Lambda</span><span class="chip">Amazon DynamoDB</span>
+        <span class="chip">Amazon Cognito</span><span class="chip">Amazon SNS</span><span class="chip">API Gateway</span>
+        <span class="chip">Amazon S3</span><span class="chip">AWS Lambda</span><span class="chip">Amazon DynamoDB</span>
+        <span class="chip">Amazon Cognito</span><span class="chip">Amazon SNS</span><span class="chip">API Gateway</span>
+      </div>
+    </div>
+
+    <section id="upload" class="section">
+      <div class="section-heading reveal">
+        <span class="eyebrow">ADD A MEMORY</span>
+        <h2>Upload your photo</h2>
+        <p>Choose an image and give your memory a name.</p>
+      </div>
+
+      <form id="uploadForm" class="upload-panel reveal">
+        <label for="photoTitle">Photo title</label>
+        <input id="photoTitle" type="text" maxlength="100"
+               placeholder="e.g. My beach vacation" required>
+
+        <label for="photoFile">Select image</label>
+        <label for="photoFile" class="dropzone">
+          <span class="upload-icon">↑</span>
+          <strong>Choose a photo from your computer</strong>
+          <span>JPEG, PNG or WebP · Maximum 10 MB</span>
+        </label>
+        <input id="photoFile" type="file"
+               accept="image/jpeg,image/png,image/webp" hidden required>
+
+        <div id="filePreview" class="file-preview hidden"></div>
+        <button type="submit" id="uploadBtn" class="btn btn-primary btn-wide">
+          Upload photo
+        </button>
+        <p class="helper">
+          Sign in first. Your photos are saved to private cloud storage.
+        </p>
+      </form>
+    </section>
+
+    <section id="gallery" class="section gallery-section">
+      <div class="section-heading gallery-heading reveal">
+        <div>
+          <span class="eyebrow">YOUR COLLECTION</span>
+          <h2>My gallery</h2>
+          <p>Your saved photos appear here.</p>
+        </div>
+        <input id="searchPhotos" type="search"
+               placeholder="Search photos..." aria-label="Search photos">
+      </div>
+
+      <div id="galleryGrid" class="gallery-grid"></div>
+      <div id="emptyState" class="empty-state">
+        <div class="empty-icon">▧</div>
+        <h3>Your gallery is waiting</h3>
+        <p>Upload your first photo to get started.</p>
+        <a href="#upload" class="btn btn-primary">Add your first photo</a>
+      </div>
+    </section>
+
+    <section class="cloud-banner reveal">
+      <div>
+        <span class="eyebrow">POWERED BY YOUR CLOUD ARCHITECTURE</span>
+        <h2>From your browser to AWS</h2>
+        <p>Our planned backend uses Amazon S3, Lambda, DynamoDB,
+           Cognito and SNS.</p>
+        <div class="chips">
+          <span class="chip">S3</span><span class="chip">Lambda</span><span class="chip">DynamoDB</span>
+          <span class="chip">Cognito</span><span class="chip">SNS</span>
+        </div>
+        <a href="about-website.html" class="btn btn-light" style="margin-top:22px">How this website works</a>
+      </div>
+      <div class="cloud-symbol">☁</div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="index.html#home">PhotoShare</a>
+    <div class="foot-links">
+      <a href="about-me.html">About me</a>
+      <a href="about-website.html">About website</a>
+    </div>
+    <span>Learning project · AWS Photo Sharing Application</span>
+  </footer>
+  <div class="made-with">Made with <span class="heart" aria-label="love">❤</span> love</div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

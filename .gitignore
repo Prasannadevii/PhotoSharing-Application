@@ -1,0 +1,11 @@
+
+.env
+.env.*
+!.env.example
+.aws/
+*.pem
+*.key
+node_modules/
+photoshare-lambda.zip
+photoshare-lambda/
+admin_lambda.py

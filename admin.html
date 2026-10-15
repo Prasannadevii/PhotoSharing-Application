@@ -1,0 +1,696 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111827">
+  <title>PhotoShare | Admin Dashboard</title>
+
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #fff;
+      --text: #172033;
+      --muted: #778197;
+      --primary: #6557e8;
+      --primary-light: #efedff;
+      --border: #e7eaf1;
+      --green: #13875d;
+      --red: #c83d4b;
+      --shadow: 0 8px 28px rgba(26, 36, 66, .05);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Arial, sans-serif;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+
+    .topbar {
+      background: #151b30;
+      color: white;
+      padding: 17px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .brand, .top-actions, .stat-top, .page-heading,
+    .panel-heading, .user-info, .details-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      background: var(--primary);
+      border-radius: 12px;
+      font-size: 23px;
+    }
+
+    .brand h2 { font-size: 19px; margin: 0; }
+    .brand p { margin: 4px 0 0; color: #b9c1d5; font-size: 12px; }
+    .top-actions { flex-wrap: wrap; }
+    .top-actions a { color: white; text-decoration: none; font-size: 14px; }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 9px;
+      padding: 10px 14px;
+      font-weight: 600;
+    }
+
+    .btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+    .btn.small { padding: 6px 10px; font-size: 12px; border-radius: 8px; }
+    .btn.danger { color: #b52f42; border-color: #f3c3c9; background: #fff5f6; }
+    .btn.danger:hover:not(:disabled) { background: var(--red); color: white; }
+
+    main { width: min(1220px, 94%); margin: 32px auto 60px; }
+    .page-heading { justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-bottom: 25px; }
+    h1 { font-size: clamp(25px, 4vw, 33px); margin: 0; }
+    .subtitle { color: var(--muted); margin: 8px 0 0; line-height: 1.6; }
+
+    .admin-badge, .pill, .photo-count {
+      display: inline-block;
+      padding: 7px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .admin-badge, .pill { background: #e7f8ef; color: #13764e; }
+    .pill.disabled { background: #ffeaec; color: #b52f42; }
+    .pill.admin { background: var(--primary-light); color: #5144c6; }
+    .photo-count { background: var(--primary-light); color: #5546ce; border-radius: 8px; }
+
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; margin-bottom: 25px; }
+    .stat, .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 15px; box-shadow: var(--shadow); }
+    .stat { padding: 22px; }
+    .stat-top { justify-content: space-between; }
+    .stat-label, .stat-note { color: var(--muted); }
+    .stat-label { font-size: 14px; }
+    .stat-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 11px; background: var(--primary-light); font-size: 20px; }
+    .stat-value { font-size: 32px; font-weight: 750; margin-top: 15px; letter-spacing: -1px; }
+    .stat-note { font-size: 12px; margin-top: 7px; }
+
+    .panel { overflow: hidden; }
+    .panel-heading { padding: 23px; justify-content: space-between; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+    .panel-heading h2 { font-size: 19px; margin: 0; }
+    .panel-heading p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+    .search { width: min(330px, 100%); border: 1px solid var(--border); background: #fafbfe; padding: 12px 14px; border-radius: 9px; outline: none; }
+    .search:focus { border-color: var(--primary); box-shadow: 0 0 0 3px #6557e81a; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; min-width: 720px; }
+    th { padding: 14px 20px; color: var(--muted); background: #fafbfe; font-size: 12px; text-transform: uppercase; letter-spacing: .6px; }
+    td { padding: 17px 20px; border-top: 1px solid var(--border); font-size: 14px; vertical-align: middle; }
+
+    .user-row { cursor: pointer; transition: background .15s; }
+    .user-row:hover { background: #fafaff; }
+    .user-row:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+    .user-info { min-width: 230px; }
+    .avatar { width: 43px; height: 43px; border-radius: 13px; display: grid; place-items: center; flex-shrink: 0; background: var(--primary-light); color: #5144c6; font-weight: 800; font-size: 17px; }
+    .user-name { font-weight: 700; margin-bottom: 5px; }
+    .user-email, .muted { color: var(--muted); }
+    .user-email { font-size: 12px; overflow-wrap: anywhere; }
+    .row-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; min-width: 210px; }
+    .expand-icon { display: inline-block; font-size: 18px; transition: transform .2s; }
+    .user-row[aria-expanded="true"] .expand-icon { transform: rotate(180deg); }
+    .details-row[hidden] { display: none; }
+    .details-row td { padding: 0; background: #fafbff; }
+    .details-content { padding: 24px; }
+    .details-title { justify-content: space-between; flex-wrap: wrap; margin-bottom: 18px; }
+    .details-title h3 { font-size: 16px; margin: 0; }
+    .details-title p { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 16px; }
+    .photo-card { min-width: 0; background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .photo-preview { height: 175px; background: #eef0f7; display: grid; place-items: center; overflow: hidden; color: var(--muted); font-size: 13px; }
+    .photo-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-meta { padding: 13px; }
+    .photo-title { font-weight: 700; font-size: 13px; overflow-wrap: anywhere; line-height: 1.5; }
+    .photo-date, .photo-id { color: var(--muted); font-size: 12px; margin-top: 9px; line-height: 1.5; overflow-wrap: anywhere; }
+    .photo-meta .btn { margin-top: 10px; width: 100%; }
+
+    .empty { padding: 40px 20px; text-align: center; color: var(--muted); line-height: 1.7; }
+    .empty strong { color: var(--text); display: block; margin-bottom: 6px; }
+    .message { display: none; margin-bottom: 20px; border-radius: 11px; padding: 15px 17px; line-height: 1.6; overflow-wrap: anywhere; }
+    .message.error { display: block; color: #9e2635; background: #ffeaec; }
+    .message.info { display: block; color: #334b8d; background: #edf2ff; }
+    .message.success { display: block; color: #116844; background: #e7f8ef; }
+    .footer { text-align: center; padding: 24px 0; color: var(--muted); font-size: 12px; }
+
+    @media (max-width: 700px) {
+      main { margin-top: 23px; }
+      .stats { grid-template-columns: 1fr; gap: 12px; }
+      .stat { padding: 17px; }
+      .stat-value { font-size: 27px; }
+      .panel-heading { padding: 18px; }
+      .details-content { padding: 15px; }
+      .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .photo-preview { height: 130px; }
+    }
+
+    @media (max-width: 390px) {
+      .photo-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">▧</div>
+      <div>
+        <h2>PhotoShare Admin</h2>
+        <p>Administration dashboard</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <a href="index.html">← Back to PhotoShare</a>
+      <button class="btn" id="refreshButton" type="button">↻ Refresh</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-heading">
+      <div>
+        <h1>Admin Dashboard</h1>
+        <p class="subtitle">View, disable, promote or delete users, and remove any photo. Every change is checked on the server.</p>
+      </div>
+      <span class="admin-badge">● Administrator</span>
+    </section>
+
+    <div id="message" class="message" role="status" aria-live="polite"></div>
+
+    <section class="stats" aria-label="Dashboard statistics">
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">Total registered users</span><span class="stat-icon">♙</span></div>
+        <div class="stat-value" id="totalUsers">—</div>
+        <div class="stat-note">Accounts in Amazon Cognito</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">Total uploaded photos</span><span class="stat-icon">▧</span></div>
+        <div class="stat-value" id="totalPhotos">—</div>
+        <div class="stat-note">Photo records in DynamoDB</div>
+      </article>
+      <article class="stat">
+        <div class="stat-top"><span class="stat-label">Uploads in the last 7 days</span><span class="stat-icon">◷</span></div>
+        <div class="stat-value" id="recentUploads">—</div>
+        <div class="stat-note">Based on recorded upload dates</div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div>
+          <h2>Registered Users</h2>
+          <p id="userSummary">Loading user information…</p>
+        </div>
+        <input id="searchInput" class="search" type="search"
+          placeholder="Search name, email or user ID…" aria-label="Search users">
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th><th>Account status</th><th>Registered</th>
+              <th>Photos</th><th>Details</th><th>Manage</th>
+            </tr>
+          </thead>
+          <tbody id="usersTable">
+            <tr><td colspan="6" class="empty">Loading users from AWS…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="noUsers" class="empty" hidden>
+        <strong>No matching users</strong>Try another search.
+      </div>
+    </section>
+
+    <div class="footer">
+      PhotoShare Administration · Private photos are displayed using temporary signed URLs.
+    </div>
+  </main>
+
+  <script>
+    "use strict";
+
+    const API_BASE = "https://aayqmlpqj9.execute-api.ap-southeast-2.amazonaws.com";
+    const TOKENS_KEY = "photoshare_cognito_tokens";
+
+    const elements = {
+      message: document.getElementById("message"),
+      totalUsers: document.getElementById("totalUsers"),
+      totalPhotos: document.getElementById("totalPhotos"),
+      recentUploads: document.getElementById("recentUploads"),
+      usersTable: document.getElementById("usersTable"),
+      userSummary: document.getElementById("userSummary"),
+      searchInput: document.getElementById("searchInput"),
+      noUsers: document.getElementById("noUsers"),
+      refreshButton: document.getElementById("refreshButton")
+    };
+
+    const me = (() => {
+      try {
+        const token = getAccessToken();
+        if (!token) return {};
+        const part = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+        const claims = JSON.parse(atob(part));
+        return { sub: claims.sub, username: claims.username };
+      } catch {
+        return {};
+      }
+    })();
+
+    let allUsers = [];
+    let openUserIds = new Set();
+
+    function showMessage(message, type = "info") {
+      elements.message.textContent = message;
+      elements.message.className = "message " + type;
+    }
+
+    function clearMessage() {
+      elements.message.textContent = "";
+      elements.message.className = "message";
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+      })[character]);
+    }
+
+    function getAccessToken() {
+      try {
+        const raw = sessionStorage.getItem(TOKENS_KEY);
+        if (!raw) return null;
+        const tokens = JSON.parse(raw);
+        return tokens.accessToken || tokens.access_token || tokens.AccessToken || null;
+      } catch {
+        return null;
+      }
+    }
+
+    function formatDate(value) {
+      if (!value) return "Not available";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "Not available";
+      return new Intl.DateTimeFormat("en-IN", {
+        day: "2-digit", month: "short", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      }).format(date);
+    }
+
+    function initials(name, email) {
+      const value = String(name || email || "?").trim();
+      if (value.includes("@")) return value.slice(0, 1).toUpperCase();
+      const parts = value.split(/\s+/).filter(Boolean);
+      return parts.length > 1
+        ? (parts[0][0] + parts[1][0]).toUpperCase()
+        : value.slice(0, 2).toUpperCase();
+    }
+
+    function getUserName(user) {
+      const name = String(user.name || "").trim();
+      const email = String(user.email || "").trim();
+      return name && name !== email ? name : (email || "Unnamed user");
+    }
+
+    function getRecentUploadCount(users) {
+      const cutoff = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      return users.reduce((total, user) => {
+        const photos = Array.isArray(user.photos) ? user.photos : [];
+        return total + photos.filter(photo => {
+          const time = new Date(photo.uploadedAt).getTime();
+          return Number.isFinite(time) && time >= cutoff;
+        }).length;
+      }, 0);
+    }
+
+    function renderDashboard(data) {
+      allUsers = Array.isArray(data.users) ? data.users : [];
+
+      const computedPhotoCount = allUsers.reduce((total, user) =>
+        total + (Array.isArray(user.photos)
+          ? user.photos.length
+          : Number(user.photoCount) || 0), 0);
+
+      elements.totalUsers.textContent =
+        Number(data.totalUsers ?? allUsers.length).toLocaleString("en-IN");
+
+      elements.totalPhotos.textContent =
+        Number(data.totalPhotos ?? computedPhotoCount).toLocaleString("en-IN");
+
+      elements.recentUploads.textContent =
+        getRecentUploadCount(allUsers).toLocaleString("en-IN");
+
+      elements.userSummary.textContent =
+        `${allUsers.length} registered user${allUsers.length === 1 ? "" : "s"}. Select a row to expand its details.`;
+
+      renderUsers();
+    }
+
+    function renderUsers() {
+      const query = elements.searchInput.value.trim().toLowerCase();
+      const filtered = allUsers.filter(user => [
+        getUserName(user), user.email, user.userId, user.status
+      ].join(" ").toLowerCase().includes(query));
+
+      elements.usersTable.replaceChildren();
+      elements.noUsers.hidden = filtered.length > 0;
+
+      if (!filtered.length) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 6;
+        cell.className = "empty";
+        cell.textContent = allUsers.length
+          ? "No users match your search."
+          : "No registered users were returned by the API.";
+        row.appendChild(cell);
+        elements.usersTable.appendChild(row);
+        return;
+      }
+
+      for (const user of filtered) {
+        const userId = String(user.userId || "");
+        const photos = Array.isArray(user.photos) ? user.photos : [];
+        const expanded = openUserIds.has(userId);
+        const status = user.enabled ? (user.status || "Enabled") : "Disabled";
+        const displayName = getUserName(user);
+        const email = user.email || "No email available";
+        const safeId = escapeHTML(userId);
+        const isSelf = userId === me.sub || userId === me.username;
+
+        const row = document.createElement("tr");
+        row.className = "user-row";
+        row.tabIndex = 0;
+        row.setAttribute("role", "button");
+        row.setAttribute("aria-expanded", String(expanded));
+
+        row.innerHTML = `
+          <td><div class="user-info">
+            <div class="avatar">${escapeHTML(initials(displayName, email))}</div>
+            <div><div class="user-name">${escapeHTML(displayName)}</div>
+            <div class="user-email">${escapeHTML(email)}</div></div>
+          </div></td>
+          <td><span class="pill ${user.enabled ? "" : "disabled"}">${escapeHTML(status)}</span></td>
+          <td>${escapeHTML(formatDate(user.createdAt))}</td>
+          <td><span class="photo-count">${photos.length}</span></td>
+          <td><span>${expanded ? "Hide" : "View"}</span> <span class="expand-icon">⌄</span></td>
+          <td><div class="row-actions">
+            ${user.isAdmin ? '<span class="pill admin">Admin</span>' : ""}
+            <button class="btn small" type="button"
+              data-act="${user.enabled ? "disable-user" : "enable-user"}"
+              data-user="${safeId}" ${isSelf ? "disabled" : ""}>
+              ${user.enabled ? "Disable" : "Enable"}</button>
+            <button class="btn small" type="button"
+              data-act="${user.isAdmin ? "remove-admin" : "make-admin"}"
+              data-user="${safeId}" ${isSelf ? "disabled" : ""}>
+              ${user.isAdmin ? "Remove admin" : "Make admin"}</button>
+            <button class="btn small danger" type="button"
+              data-act="delete-user" data-user="${safeId}"
+              ${isSelf ? 'disabled title="You cannot delete your own account"' : ""}>
+              Delete</button>
+          </div></td>`;
+
+        const toggle = () => {
+          if (openUserIds.has(userId)) openUserIds.delete(userId);
+          else openUserIds.add(userId);
+          renderUsers();
+        };
+
+        row.addEventListener("click", event => {
+          if (event.target.closest("button")) return;
+          toggle();
+        });
+
+        row.addEventListener("keydown", event => {
+          if (event.target.closest("button")) return;
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggle();
+          }
+        });
+
+        elements.usersTable.appendChild(row);
+
+        const detailsRow = document.createElement("tr");
+        detailsRow.className = "details-row";
+        detailsRow.hidden = !expanded;
+
+        const detailsCell = document.createElement("td");
+        detailsCell.colSpan = 6;
+        const details = document.createElement("div");
+        details.className = "details-content";
+
+        const heading = document.createElement("div");
+        heading.className = "details-title";
+
+        const headingText = document.createElement("div");
+        const headingTitle = document.createElement("h3");
+        headingTitle.textContent = `Photos shared by ${displayName}`;
+
+        const headingDescription = document.createElement("p");
+        headingDescription.textContent =
+          `User ID: ${userId || "Not available"} · Registered: ${formatDate(user.createdAt)}`;
+
+        headingText.append(headingTitle, headingDescription);
+
+        const photoCountLabel = document.createElement("span");
+        photoCountLabel.className = "photo-count";
+        photoCountLabel.textContent =
+          `${photos.length} photo${photos.length === 1 ? "" : "s"}`;
+
+        heading.append(headingText, photoCountLabel);
+        details.appendChild(heading);
+
+        if (!photos.length) {
+          const empty = document.createElement("div");
+          empty.className = "empty";
+          empty.textContent = "This user has not uploaded any photos.";
+          details.appendChild(empty);
+        } else {
+          const grid = document.createElement("div");
+          grid.className = "photo-grid";
+
+          for (const photo of photos) {
+            const card = document.createElement("article");
+            card.className = "photo-card";
+
+            const preview = document.createElement("div");
+            preview.className = "photo-preview";
+
+            if (photo.viewUrl) {
+              const image = document.createElement("img");
+              image.src = photo.viewUrl;
+              image.alt = photo.title || "Uploaded photo";
+              image.loading = "lazy";
+              image.addEventListener("error", () => {
+                preview.replaceChildren();
+                preview.textContent = "Preview expired or unavailable. Refresh the dashboard.";
+              }, { once: true });
+              preview.appendChild(image);
+            } else {
+              preview.textContent = "Preview unavailable";
+            }
+
+            const meta = document.createElement("div");
+            meta.className = "photo-meta";
+
+            const title = document.createElement("div");
+            title.className = "photo-title";
+            title.textContent = photo.title || "Untitled photo";
+
+            const date = document.createElement("div");
+            date.className = "photo-date";
+            date.textContent = "Uploaded: " + formatDate(photo.uploadedAt);
+
+            const id = document.createElement("div");
+            id.className = "photo-id";
+            id.textContent = "Photo ID: " + (photo.photoId || "Not available");
+
+            const removePhoto = document.createElement("button");
+            removePhoto.type = "button";
+            removePhoto.className = "btn small danger";
+            removePhoto.textContent = "Delete photo";
+            removePhoto.dataset.act = "delete-photo";
+            removePhoto.dataset.photo = String(photo.photoId || "");
+            removePhoto.dataset.user = userId;
+
+            meta.append(title, date, id, removePhoto);
+            card.append(preview, meta);
+            grid.appendChild(card);
+          }
+
+          details.appendChild(grid);
+        }
+
+        detailsCell.appendChild(details);
+        detailsRow.appendChild(detailsCell);
+        elements.usersTable.appendChild(detailsRow);
+      }
+    }
+
+    async function loadAdminData(silent = false) {
+      clearMessage();
+      const token = getAccessToken();
+
+      if (!token) {
+        showMessage(
+          "You are not signed in, or your login token was not found. Open PhotoShare, sign in, then open admin.html in the same browser tab/session.",
+          "error"
+        );
+        elements.usersTable.innerHTML =
+          '<tr><td colspan="6" class="empty">Sign in to PhotoShare before loading administrator data.</td></tr>';
+        elements.userSummary.textContent = "Login required";
+        return;
+      }
+
+      elements.refreshButton.disabled = true;
+      elements.refreshButton.textContent = "Loading…";
+      elements.userSummary.textContent = "Retrieving data from AWS…";
+
+      try {
+        const result = await fetch(`${API_BASE}/admin/data`, {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+          cache: "no-store"
+        });
+
+        const data = await result.json().catch(() => ({}));
+
+        if (result.status === 401) {
+          throw new Error("Your login session is invalid or expired. Return to PhotoShare and sign in again.");
+        }
+        if (result.status === 403) {
+          throw new Error("Access denied. Confirm that your Cognito account belongs to the Admin group, then sign out and sign in again.");
+        }
+        if (!result.ok) {
+          throw new Error(data.message || `API request failed with status ${result.status}.`);
+        }
+        if (!Array.isArray(data.users)) {
+          throw new Error("The API response does not contain the expected users array.");
+        }
+
+        renderDashboard(data);
+        if (!silent) showMessage("Admin dashboard data loaded successfully.", "success");
+      } catch (error) {
+        console.error("Admin dashboard error:", error);
+        showMessage(
+          `${error.message || "Unable to load the admin dashboard."} If this is a CORS error, verify the API Gateway CORS settings.`,
+          "error"
+        );
+        elements.userSummary.textContent = "Unable to load users";
+        elements.usersTable.innerHTML =
+          '<tr><td colspan="6" class="empty">Dashboard data could not be loaded. Read the message above.</td></tr>';
+      } finally {
+        elements.refreshButton.disabled = false;
+        elements.refreshButton.textContent = "↻ Refresh";
+      }
+    }
+
+    async function adminAction(payload, button) {
+      const token = getAccessToken();
+
+      if (!token) {
+        showMessage("Your session expired. Sign in to PhotoShare again.", "error");
+        return;
+      }
+
+      const isPhotoDelete = payload.action === "delete-photo";
+      const actionUrl = isPhotoDelete
+        ? `${API_BASE}/admin/delete-photo`
+        : `${API_BASE}/admin/action`;
+
+      button.disabled = true;
+
+      try {
+        // Photo deletion uses its dedicated endpoint. Other admin actions
+        // continue using the existing /admin/action endpoint.
+        const requestBody = isPhotoDelete
+          ? { userId: payload.userId, photoId: payload.photoId }
+          : payload;
+
+        const result = await fetch(actionUrl, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        const data = await result.json().catch(() => ({}));
+
+        if (!result.ok) {
+          throw new Error(data.message || `Action failed (HTTP ${result.status}).`);
+        }
+
+        // Reload server data only after the API confirms success.
+        await loadAdminData(true);
+        showMessage(data.message || (isPhotoDelete ? "Photo deleted successfully." : "Action completed."), "success");
+      } catch (error) {
+        console.error("Admin action error:", error);
+        showMessage(error.message || "The action failed.", "error");
+        button.disabled = false;
+      }
+    }
+
+    elements.usersTable.addEventListener("click", event => {
+      const button = event.target.closest("button[data-act]");
+      if (!button || button.disabled) return;
+
+      const { act, user: userId, photo: photoId } = button.dataset;
+      const user = allUsers.find(item => String(item.userId) === userId);
+      const label = user ? getUserName(user) : userId;
+      const photoTotal = user && Array.isArray(user.photos) ? user.photos.length : 0;
+
+      const questions = {
+        "disable-user": `Disable ${label}? They will be signed out and cannot sign in.`,
+        "make-admin": `Give ${label} full administrator access?`,
+        "remove-admin": `Remove administrator access from ${label}?`,
+        "delete-photo": "Permanently delete this photo from cloud storage?"
+      };
+
+      if (act === "delete-user") {
+        const typed = prompt(
+          `This permanently deletes ${label}, their account and ${photoTotal} photo(s). It cannot be undone.\n\nType DELETE to confirm.`
+        );
+        if (typed !== "DELETE") return;
+      } else if (questions[act] && !confirm(questions[act])) {
+        return;
+      }
+
+      adminAction({ action: act, userId, photoId }, button);
+    });
+
+    elements.searchInput.addEventListener("input", renderUsers);
+    elements.refreshButton.addEventListener("click", () => loadAdminData());
+
+    loadAdminData();
+  </script>
+</body>
+</html>
